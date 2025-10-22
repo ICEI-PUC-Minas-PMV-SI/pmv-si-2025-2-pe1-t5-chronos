@@ -1,39 +1,29 @@
-import './App.css'
+import React from "react";
+import "./App.css";
+import { Routes, Route, Link } from "react-router-dom";
+import PaginaInicial from "./PaginaInicial";
+import Conquistas from "./pages/conquistas"; 
 
-export default function Pagina(){
+export default function App() {
   return (
-    <div className='flex flex-col gap-4'>
+    <div className="min-h-screen bg-gray-100">
+      {/* Menu simples pra navegar */}
+      <nav className="bg-white shadow-md p-4 flex gap-6">
+        <Link to="/" className="text-blue-700 font-semibold hover:underline">
+          Início
+        </Link>
+        <Link to="/conquistas" className="text-blue-700 font-semibold hover:underline">
+          Conquistas
+        </Link>
+      </nav>
 
-
-      {/* Linha 1*/}
-      <div className='grid grid-cols-2 gap-4'>
-        <div className='bg-blue-300 p-4'>
-
-
-
-
-          
-          Coluna A
-        </div>
-        <div className='bg-blue-400 p-4'>
-          Coluna B
-        </div>
-      </div>
-      {/*Linha 2*/ }
-      <div className='grid grid-cols-3 gap-4'>
-        <div className='bg-gray-300 p-4 flex-1'>Coluna 1</div>
-        <div className='bg-gray-400 p-4 flex-1'>Coluna 2</div>
-        <div className='bg-gray-500 p-4 flex-1'>Coluna 3</div>
-      </div>
-
-      {/* Linha 3*/}
-      <div className='grid grid-cols-2 gap-4'>
-        <div className='bg-blue-300 p-4'>Coluna A</div>
-        <div className='bg-blue-400 p-4'>Coluna B</div>
+      {/* Rotas */}
+      <div className="p-6">
+        <Routes>
+          <Route path="/" element={<PaginaInicial />} />
+          <Route path="/conquistas" element={<Conquistas />} />
+        </Routes>
       </div>
     </div>
-
   );
 }
-
-
