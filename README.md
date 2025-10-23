@@ -12,6 +12,7 @@ Com o avanço das tecnologias de informação e comunicação, tornou-se essenci
 * Lucas Oliveira Muzzi
 * Diego Hugo Teixeira dos Santos
 * Paulo Henrique Emanuel Caetano Assis
+* Richard Smanhoto
 
 
 ## Orientador
