@@ -1,0 +1,98 @@
+/* Arquivo: src/styles/style.css (RECRIADO E OTIMIZADO) */
+
+/* 1. Importação da Fonte (Inter) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* 2. Variáveis de Tema (Cores) */
+:root {
+    --primary-color: #6a5af9;       /* Cor Principal (Roxo Chronos) */
+    --primary-hover: #5848d8;       /* Cor Primária ao passar o mouse */
+    --background-color: #f4f7f9;    /* Fundo da Aplicação (Cinza Claro) */
+    --text-color: #333;             /* Cor Principal do Texto */
+    --text-secondary: #777;         /* Cor Secundária do Texto */
+    --container-bg: #fff;           /* Fundo de Cards e Sidebar */
+    --border-color: #e0e0e0;        /* Cor de Linhas e Bordas */
+    --container-border-light: #e8e6ff; /* Borda mais suave para cards */
+}
+
+/* 3. Reset Básico (Universal) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Garante que padding e borda não aumentem o tamanho do elemento */
+}
+
+/* 4. Estilos de Corpo (Body) - NEUTRO para SPA */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    /* **CRUCIAL**: Removemos as regras de flexbox/centralização */
+    min-height: 100vh; 
+    line-height: 1.5; /* Boa prática para legibilidade */
+}
+
+/* 5. Estilos de Tipografia e Títulos Genéricos */
+h1, h2, h3, h4 {
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+p {
+    color: var(--text-secondary);
+}
+
+/* 6. Estilos de Formulário Genéricos (Usados em Modal/Rotina/Projetos) */
+input, select {
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+}
+
+input:focus, select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+/* 7. Estilos de Botão Genérico */
+button {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Botão Primário (Default para botões sem classe específica) */
+button[type="submit"], .btn-primary {
+    background-color: var(--primary-color);
+    color: var(--container-bg);
+}
+
+button[type="submit"]:hover, .btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+/* 8. Links de Navegação */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}
+
+
+.app-layout {
+    display: flex; /* Esta é a regra MESTRA que coloca a sidebar e o main-content lado a lado */
+    min-height: 100vh;
+    width: 100%;
+}

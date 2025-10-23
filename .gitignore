@@ -1,0 +1,24 @@
+# Arquivo: .gitignore (na raiz do projeto)
+
+# DEPENDÊNCIAS DO NODE
+# Essencial para projetos React, pois esta pasta é gigante
+node_modules/
+dist/
+
+# ARQUIVOS DE BUILD E CACHE
+build/
+.cache/
+.parcel-cache/
+/coverage
+
+# ARQUIVOS DE LOGS E AMBIENTE
+npm-debug.log
+.env
+.env.local
+
+# ARQUIVOS E PASTAS DO VS CODE
+# Opcional, mas recomendado para não poluir o repositório
+.vscode/
+
+# SEU CÓDIGO FONTE (O que queremos manter)
+# NÃO IGNORE AS PASTAS src/, public/, App.jsx, package.json

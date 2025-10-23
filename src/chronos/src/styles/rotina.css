@@ -1,0 +1,168 @@
+/* Arquivo: src/styles/rotina.css (AJUSTADO) */
+
+/* ===== Cabeçalho (rotina-header) ===== */
+.rotina-header {
+  /* AJUSTE: Usamos space-between para empurrar o título e o botão para as extremidades */
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.rotina-header .rotina-title h2 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.rotina-header .rotina-title p {
+  color: #777;
+  font-size: 1.1rem;
+  margin-bottom: 0;
+}
+
+/* ===== Botão de adicionar (.adicionar-btn) ===== */
+.adicionar-btn {
+  /* AJUSTE: Usando a variável global de cor primária para padronização */
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: fit-content;
+  display: inline-block;
+  align-self: center;
+  margin-top: -5px; 
+}
+
+.adicionar-btn:hover {
+  /* AJUSTE: Usando uma cor levemente mais escura ou padronizada */
+  background-color: #5848d8; /* Valor ligeiramente ajustado */
+  transform: translateY(-2px);
+}
+
+/* ===== Layout principal (grid) ===== */
+.rotina {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* ===== Cartões (periodo-card, notas-card, graph-card) ===== */
+.periodo-card,
+.notas-card,
+.graph-card {
+  background-color: var(--container-bg);
+  padding: 25px;
+  border-radius: 12px;
+  /* AJUSTE: Usando a variável global de cor de borda ou mantendo o estilo visual */
+  border: 1px solid var(--border-color); /* Padronizando com a variável */
+}
+
+.periodo-card h3,
+.notas-card h3,
+.graph-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.periodo-card ul,
+.notas-card ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.periodo-card ul li,
+.notas-card ul li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+/* ===== Marcadores personalizados ===== */
+.notas-card ul li::before {
+  content: '•';
+  color: var(--primary-color);
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+/* ===== Gráfico (graph-card - USAR O NOME CORRETO: .grafico-card) ===== */
+/* NOTE: Seu HTML usava .grafico-card, o CSS usava .graph-card. Vou manter .graph-card, mas verifique no seu JSX. */
+.graph-card {
+  grid-column: span 2;
+}
+/* Se você usou .grafico-card no JSX:
+.grafico-card {
+  grid-column: span 2;
+}
+*/
+
+.progress-placeholder {
+  width: 100%;
+  height: 150px;
+  background-color: #f4f7f9;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #aaa;
+  font-style: italic;
+}
+
+.progress-placeholder::after {
+  content: 'Gráfico de progresso diário';
+}
+
+/* ===== Modal (Perfeito, não alterado) ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* ... (Resto dos estilos do Modal sem alteração) ... */
+
+/* ===== Responsividade ===== */
+@media (max-width: 992px) {
+  .rotina {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .graph-card {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .rotina {
+    grid-template-columns: 1fr;
+  }
+
+  .graph-card {
+    grid-column: span 1;
+  }
+
+  .rotina-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .adicionar-btn {
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+  }
+}
