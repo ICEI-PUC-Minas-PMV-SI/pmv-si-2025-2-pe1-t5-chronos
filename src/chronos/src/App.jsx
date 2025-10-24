@@ -19,7 +19,7 @@ import TelaProjetos from './pages/TelaProjetos';
 import TelaBuscar from './pages/TelaBuscar';
 import TelaAnalise from './pages/TelaAnalise';
 import TelaConfiguracoes from './pages/TelaConfiguracoes';
-
+import TelaCalendario from './pages/TelaCalendario';
 
 function App() {
   return (
@@ -36,6 +36,7 @@ function App() {
         <Route path="/lembretes" element={<TelaLembretes />} />
         <Route path="/conquistas" element={<TelaConquistas />} />
         <Route path="/projetos" element={<TelaProjetos />} />
+        <Route path="/calendario" element={<TelaCalendario />} />
 
         {/* Mapeamento das Rotas Auxiliares */}
         <Route path="/buscar" element={<TelaBuscar />} />
