@@ -1,167 +1,106 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chronos - Início</title>
+import React, { useState, useEffect } from "react";
+import "../styles/dashboard.css";
 
-    <!-- TailwindCSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+export default function Paginainicial() {
+  const [notas, setNotas] = useState<string[]>([]);
+  const [novaNota, setNovaNota] = useState("");
 
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  </head>
+  const [atividades, setAtividades] = useState<{ titulo: string; data: string }[]>([]);
+  const [tituloAtividade, setTituloAtividade] = useState("");
+  const [dataAtividade, setDataAtividade] = useState("");
 
-  <body class="bg-gray-100 min-h-screen flex">
-    <!-- ========== MENU LATERAL ========== -->
-    <aside class="w-60 bg-white shadow-md p-5 flex flex-col">
-      <h1 class="text-2xl font-bold mb-8">Menu Principal</h1>
+  useEffect(() => {
+    const notasSalvas = localStorage.getItem("notas");
+    const atividadesSalvas = localStorage.getItem("atividades");
+    if (notasSalvas) setNotas(JSON.parse(notasSalvas));
+    if (atividadesSalvas) setAtividades(JSON.parse(atividadesSalvas));
+  }, []);
 
-      <nav class="flex flex-col space-y-4 text-gray-700">
-        <a
-          href="#"
-          class="flex items-center space-x-2 bg-gray-100 rounded-lg px-3 py-2 font-semibold text-indigo-600"
-        >
-          <span>🏠</span><span>Início</span>
-        </a>
-        <a href="#" class="flex items-center space-x-2 hover:text-indigo-600">
-          <span>🔍</span><span>Buscar</span>
-        </a>
-        <a href="#" class="flex items-center space-x-2 hover:text-indigo-600">
-          <span>📅</span><span>Calendário</span>
-        </a>
-        <a href="#" class="flex items-center space-x-2 hover:text-indigo-600">
-          <span>🗓️</span><span>Rotina</span>
-        </a>
-        <a href="#" class="flex items-center space-x-2 hover:text-indigo-600">
-          <span>🎯</span><span>Metas</span>
-        </a>
-        <a href="#" class="flex items-center space-x-2 hover:text-indigo-600">
-          <span>🔔</span><span>Lembretes</span>
-        </a>
-        <a href="#" class="flex items-center space-x-2 hover:text-indigo-600">
-          <span>🏆</span><span>Conquistas</span>
-        </a>
-        <a href="#" class="flex items-center space-x-2 hover:text-indigo-600">
-          <span>📁</span><span>Projetos</span>
-        </a>
-      </nav>
-    </aside>
+  useEffect(() => {
+    localStorage.setItem("notas", JSON.stringify(notas));
+    localStorage.setItem("atividades", JSON.stringify(atividades));
+  }, [notas, atividades]);
 
-    <!-- ========== CONTEÚDO PRINCIPAL ========== -->
-    <main class="flex-1 p-8">
-      <!-- Logo -->
-      <div class="flex justify-center items-center mb-10">
-        <img
-          src="https://img.icons8.com/ios-filled/100/000000/spiral-bound-booklet.png"
-          alt="logo"
-          class="w-10 h-10 mr-3"
-        />
-        <h1 class="text-4xl font-bold text-indigo-700">CHRONOS</h1>
-      </div>
+  function adicionarNota() {
+    if (!novaNota.trim()) return;
+    setNotas([...notas, novaNota]);
+    setNovaNota("");
+  }
 
-      <!-- Criar nota e atividade -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <!-- Criar nota -->
-        <div class="bg-white rounded-2xl p-4 shadow">
-          <h2 class="font-semibold mb-2">📝 Criar nota</h2>
-          <textarea
-            class="w-full border rounded-md p-2 text-sm"
-            placeholder="Escreva uma nota rápida..."
-          ></textarea>
-          <button
-            class="mt-2 bg-indigo-600 text-white px-4 py-1 rounded-md hover:bg-indigo-700"
-          >
-            Adicionar
-          </button>
+  function excluirNota(index: number) {
+    setNotas(notas.filter((_, i) => i !== index));
+  }
+
+  function adicionarAtividade() {
+    if (!tituloAtividade || !dataAtividade) return;
+    setAtividades([...atividades, { titulo: tituloAtividade, data: dataAtividade }]);
+    setTituloAtividade("");
+    setDataAtividade("");
+  }
+
+  function excluirAtividade(index: number) {
+    setAtividades(atividades.filter((_, i) => i !== index));
+  }
+
+  return (
+    <div className="app-container">
+
+      <aside className="sidebar">
+        <div className="sidebar-header">
+          <h1>CHRONOS</h1>
         </div>
 
-        <!-- Criar atividade -->
-        <div class="bg-white rounded-2xl p-4 shadow">
-          <h2 class="font-semibold mb-2">📋 Criar atividade</h2>
+        <ul className="menu">
+          <li className="active">🏠 Início</li>
+          <li>📅 Calendário</li>
+          <li>🎯 Metas</li>
+          <li>🔔 Lembretes</li>
+          <li>🏆 Conquistas</li>
+        </ul>
+      </aside>
+
+      <main className="content">
+        <section className="card">
+          <h2>📝 Criar Nota</h2>
+          <textarea value={novaNota} onChange={(e) => setNovaNota(e.target.value)} />
+          <button onClick={adicionarNota}>Adicionar</button>
+          <ul>
+            {notas.map((nota, index) => (
+              <li key={index}>
+                {nota}
+                <button onClick={() => excluirNota(index)}>❌</button>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="card">
+          <h2>📋 Criar Atividade</h2>
+
           <input
             type="text"
-            placeholder="Título da atividade"
-            class="w-full border rounded-md p-2 text-sm mb-2"
+            placeholder="Título"
+            value={tituloAtividade}
+            onChange={(e) => setTituloAtividade(e.target.value)}
           />
           <input
             type="date"
-            class="w-full border rounded-md p-2 text-sm mb-2"
+            value={dataAtividade}
+            onChange={(e) => setDataAtividade(e.target.value)}
           />
-          <button
-            class="bg-indigo-600 text-white px-4 py-1 rounded-md hover:bg-indigo-700"
-          >
-            Adicionar
-          </button>
-        </div>
-      </div>
 
-      <!-- Cards de resumo -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div class="bg-white rounded-2xl p-5 shadow">
-          <h3 class="font-semibold">📅 Atividades</h3>
-          <p class="text-gray-600 text-sm mt-1">0 em atraso</p>
-          <div class="w-full bg-gray-200 h-2 rounded mt-2">
-            <div class="bg-indigo-600 h-2 w-[0%] rounded"></div>
-          </div>
-          <p class="text-gray-500 text-xs mt-1">0% concluídas</p>
-        </div>
+          <button onClick={adicionarAtividade}>Adicionar</button>
 
-        <div class="bg-white rounded-2xl p-5 shadow">
-          <h3 class="font-semibold">🗒️ Notas</h3>
-          <p class="text-gray-600 text-sm mt-1">0</p>
-          <p class="text-gray-500 text-xs">Anotações rápidas para não esquecer</p>
-        </div>
-
-        <div class="bg-white rounded-2xl p-5 shadow">
-          <h3 class="font-semibold">🎯 Metas</h3>
-          <p class="text-gray-600 text-sm mt-1">3</p>
-          <p class="text-gray-500 text-xs">Acompanhe seu progresso</p>
-        </div>
-      </div>
-
-      <!-- Gráfico e resumo rápido -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-white rounded-2xl p-5 shadow">
-          <h3 class="font-semibold mb-4">📊 Produtividade na semana</h3>
-          <canvas id="graficoProdutividade"></canvas>
-        </div>
-
-        <div class="bg-white rounded-2xl p-5 shadow">
-          <h3 class="font-semibold mb-4">📈 Resumo rápido</h3>
-          <p class="text-gray-600 text-sm">
-            Acompanhe aqui suas métricas e desempenho semanal.
-          </p>
-        </div>
-      </div>
-    </main>
-
-    <!-- ========== SCRIPT DO GRÁFICO ========== -->
-    <script>
-      const ctx = document.getElementById("graficoProdutividade");
-      new Chart(ctx, {
-        type: "line",
-        data: {
-          labels: ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"],
-          datasets: [
-            {
-              label: "Tarefas concluídas",
-              data: [6, 8, 7, 9, 5, 3, 4],
-              borderWidth: 2,
-              borderColor: "#4f46e5",
-              tension: 0.3,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          plugins: { legend: { display: false } },
-          scales: {
-            y: { beginAtZero: true, ticks: { stepSize: 3 } },
-          },
-        },
-      });
-    </script>
-  </body>
-</html>
-
+          <ul>
+            {atividades.map((a, i) => (
+              <li key={i}>
+                {a.titulo} | {a.data}
+                <button onClick={() => excluirAtividade(i)}>❌</button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </main>
+    </div>
+  );
+}
