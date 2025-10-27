@@ -5,13 +5,16 @@ export default function Paginainicial() {
   const [notas, setNotas] = useState<string[]>([]);
   const [novaNota, setNovaNota] = useState("");
 
-  const [atividades, setAtividades] = useState<{ titulo: string; data: string }[]>([]);
+  const [atividades, setAtividades] = useState<
+    { titulo: string; data: string }[]
+  >([]);
   const [tituloAtividade, setTituloAtividade] = useState("");
   const [dataAtividade, setDataAtividade] = useState("");
 
   useEffect(() => {
     const notasSalvas = localStorage.getItem("notas");
     const atividadesSalvas = localStorage.getItem("atividades");
+
     if (notasSalvas) setNotas(JSON.parse(notasSalvas));
     if (atividadesSalvas) setAtividades(JSON.parse(atividadesSalvas));
   }, []);
@@ -21,33 +24,36 @@ export default function Paginainicial() {
     localStorage.setItem("atividades", JSON.stringify(atividades));
   }, [notas, atividades]);
 
-  function adicionarNota() {
-    if (!novaNota.trim()) return;
+  const adicionarNota = () => {
+    if (novaNota.trim() === "") return;
     setNotas([...notas, novaNota]);
     setNovaNota("");
-  }
+  };
 
-  function excluirNota(index: number) {
+  const excluirNota = (index: number) => {
     setNotas(notas.filter((_, i) => i !== index));
-  }
+  };
 
-  function adicionarAtividade() {
+  const adicionarAtividade = () => {
     if (!tituloAtividade || !dataAtividade) return;
-    setAtividades([...atividades, { titulo: tituloAtividade, data: dataAtividade }]);
+
+    const nova = { titulo: tituloAtividade, data: dataAtividade };
+    setAtividades([...atividades, nova]);
+
     setTituloAtividade("");
     setDataAtividade("");
-  }
+  };
 
-  function excluirAtividade(index: number) {
+  const excluirAtividade = (index: number) => {
     setAtividades(atividades.filter((_, i) => i !== index));
-  }
+  };
 
   return (
     <div className="app-container">
-
+      {/* MENU LATERAL */}
       <aside className="sidebar">
         <div className="sidebar-header">
-          <h1>CHRONOS</h1>
+          <h1>Chronos</h1>
         </div>
 
         <ul className="menu">
@@ -59,12 +65,18 @@ export default function Paginainicial() {
         </ul>
       </aside>
 
+      {/* CONTEÚDO PRINCIPAL */}
       <main className="content">
-        <section className="card">
+        <div className="card">
           <h2>📝 Criar Nota</h2>
-          <textarea value={novaNota} onChange={(e) => setNovaNota(e.target.value)} />
+          <textarea
+            value={novaNota}
+            placeholder="Digite sua nota..."
+            onChange={(e) => setNovaNota(e.target.value)}
+          />
           <button onClick={adicionarNota}>Adicionar</button>
-          <ul>
+
+          <ul className="item-list">
             {notas.map((nota, index) => (
               <li key={index}>
                 {nota}
@@ -72,11 +84,10 @@ export default function Paginainicial() {
               </li>
             ))}
           </ul>
-        </section>
+        </div>
 
-        <section className="card">
+        <div className="card">
           <h2>📋 Criar Atividade</h2>
-
           <input
             type="text"
             placeholder="Título"
@@ -88,18 +99,17 @@ export default function Paginainicial() {
             value={dataAtividade}
             onChange={(e) => setDataAtividade(e.target.value)}
           />
-
           <button onClick={adicionarAtividade}>Adicionar</button>
 
-          <ul>
-            {atividades.map((a, i) => (
+          <ul className="item-list">
+            {atividades.map((atividade, i) => (
               <li key={i}>
-                {a.titulo} | {a.data}
+                {atividade.titulo} — {atividade.data}
                 <button onClick={() => excluirAtividade(i)}>❌</button>
               </li>
             ))}
           </ul>
-        </section>
+        </div>
       </main>
     </div>
   );
