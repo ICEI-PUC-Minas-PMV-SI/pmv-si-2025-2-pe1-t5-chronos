@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "../styles/dashboard.css";
 
-export default function Paginainicial() {
+export default function PaginaInicial() {
   const [notas, setNotas] = useState<string[]>([]);
   const [novaNota, setNovaNota] = useState("");
 
-  const [atividades, setAtividades] = useState<
-    { titulo: string; data: string }[]
-  >([]);
+  const [atividades, setAtividades] = useState<{ titulo: string; data: string }[]>([]);
   const [tituloAtividade, setTituloAtividade] = useState("");
   const [dataAtividade, setDataAtividade] = useState("");
 
@@ -30,87 +28,71 @@ export default function Paginainicial() {
     setNovaNota("");
   };
 
-  const excluirNota = (index: number) => {
-    setNotas(notas.filter((_, i) => i !== index));
+  const removerNota = (index: number) => {
+    const novaLista = [...notas];
+    novaLista.splice(index, 1);
+    setNotas(novaLista);
   };
 
   const adicionarAtividade = () => {
-    if (!tituloAtividade || !dataAtividade) return;
-
-    const nova = { titulo: tituloAtividade, data: dataAtividade };
-    setAtividades([...atividades, nova]);
-
+    if (tituloAtividade.trim() === "") return;
+    setAtividades([...atividades, { titulo: tituloAtividade, data: dataAtividade }]);
     setTituloAtividade("");
     setDataAtividade("");
   };
 
-  const excluirAtividade = (index: number) => {
-    setAtividades(atividades.filter((_, i) => i !== index));
+  const removerAtividade = (index: number) => {
+    const novaLista = [...atividades];
+    novaLista.splice(index, 1);
+    setAtividades(novaLista);
   };
 
   return (
-    <div className="app-container">
-      {/* MENU LATERAL */}
-      <aside className="sidebar">
-        <div className="sidebar-header">
-          <h1>Chronos</h1>
-        </div>
+    <div className="dashboard-page">
+      <h1>Chronos - Página Inicial</h1>
+      
+      <section>
+        <h2>Notas</h2>
+        <input
+          value={novaNota}
+          onChange={(e) => setNovaNota(e.target.value)}
+          placeholder="Digite uma nota"
+        />
+        <button onClick={adicionarNota}>Adicionar Nota</button>
 
-        <ul className="menu">
-          <li className="active">🏠 Início</li>
-          <li>📅 Calendário</li>
-          <li>🎯 Metas</li>
-          <li>🔔 Lembretes</li>
-          <li>🏆 Conquistas</li>
+        <ul>
+          {notas.map((nota, index) => (
+            <li key={index}>
+              {nota} 
+              <button onClick={() => removerNota(index)}>Excluir</button>
+            </li>
+          ))}
         </ul>
-      </aside>
+      </section>
 
-      {/* CONTEÚDO PRINCIPAL */}
-      <main className="content">
-        <div className="card">
-          <h2>📝 Criar Nota</h2>
-          <textarea
-            value={novaNota}
-            placeholder="Digite sua nota..."
-            onChange={(e) => setNovaNota(e.target.value)}
-          />
-          <button onClick={adicionarNota}>Adicionar</button>
+      <section>
+        <h2>Atividades</h2>
+        <input
+          value={tituloAtividade}
+          onChange={(e) => setTituloAtividade(e.target.value)}
+          placeholder="Título da atividade"
+        />
+        <input
+          type="date"
+          value={dataAtividade}
+          onChange={(e) => setDataAtividade(e.target.value)}
+        />
+        <button onClick={adicionarAtividade}>Adicionar Atividade</button>
 
-          <ul className="item-list">
-            {notas.map((nota, index) => (
-              <li key={index}>
-                {nota}
-                <button onClick={() => excluirNota(index)}>❌</button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="card">
-          <h2>📋 Criar Atividade</h2>
-          <input
-            type="text"
-            placeholder="Título"
-            value={tituloAtividade}
-            onChange={(e) => setTituloAtividade(e.target.value)}
-          />
-          <input
-            type="date"
-            value={dataAtividade}
-            onChange={(e) => setDataAtividade(e.target.value)}
-          />
-          <button onClick={adicionarAtividade}>Adicionar</button>
-
-          <ul className="item-list">
-            {atividades.map((atividade, i) => (
-              <li key={i}>
-                {atividade.titulo} — {atividade.data}
-                <button onClick={() => excluirAtividade(i)}>❌</button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </main>
+        <ul>
+          {atividades.map((atividade, index) => (
+            <li key={index}>
+              {atividade.titulo} - {atividade.data}
+              <button onClick={() => removerAtividade(index)}>Excluir</button>
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 }
