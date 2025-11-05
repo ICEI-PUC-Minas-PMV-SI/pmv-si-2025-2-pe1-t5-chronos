@@ -1,10 +1,9 @@
-/* Arquivo: src/styles/rotina.css (AJUSTADO) */
+/* Arquivo: src/styles/rotina.css */
 
-/* ===== Cabeçalho (rotina-header) ===== */
+/* ===== Cabeçalho ===== */
 .rotina-header {
-  /* AJUSTE: Usamos space-between para empurrar o título e o botão para as extremidades */
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 25px;
 }
@@ -15,15 +14,14 @@
 }
 
 .rotina-header .rotina-title p {
-  color: #777;
+  color: var(--text-secondary, #777);
   font-size: 1.1rem;
   margin-bottom: 0;
 }
 
-/* ===== Botão de adicionar (.adicionar-btn) ===== */
+/* ===== Botão de adicionar ===== */
 .adicionar-btn {
-  /* AJUSTE: Usando a variável global de cor primária para padronização */
-  background-color: var(--primary-color);
+  background-color: var(--primary-color, #6c5ce7);
   color: #fff;
   border: none;
   padding: 10px 25px;
@@ -35,12 +33,11 @@
   width: fit-content;
   display: inline-block;
   align-self: center;
-  margin-top: -5px; 
+  margin-top: -5px;
 }
 
 .adicionar-btn:hover {
-  /* AJUSTE: Usando uma cor levemente mais escura ou padronizada */
-  background-color: #5848d8; /* Valor ligeiramente ajustado */
+  background-color: var(--primary-hover, #5a4be0);
   transform: translateY(-2px);
 }
 
@@ -51,15 +48,14 @@
   gap: 20px;
 }
 
-/* ===== Cartões (periodo-card, notas-card, graph-card) ===== */
+/* ===== Cartões ===== */
 .periodo-card,
 .notas-card,
 .graph-card {
   background-color: var(--container-bg);
   padding: 25px;
   border-radius: 12px;
-  /* AJUSTE: Usando a variável global de cor de borda ou mantendo o estilo visual */
-  border: 1px solid var(--border-color); /* Padronizando com a variável */
+  border: 1px solid var(--container-border-light, #e8e6ff);
 }
 
 .periodo-card h3,
@@ -76,10 +72,43 @@
   padding-left: 0;
 }
 
+/* ===== Estilo do Item da Lista (li) ===== */
 .periodo-card ul li,
 .notas-card ul li {
   margin-bottom: 10px;
   font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s, opacity 0.3s;
+  
+  /* NOVO: Flexbox para alinhar texto e botões */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Container dos botões de ação */
+.tarefa-acoes {
+  display: flex;
+  gap: 8px;
+}
+
+/* Estilo base dos botões de ação (do TarefaItem.jsx) */
+.btn-acao {
+  /* Estilos inline no JSX já cuidam disso, mas podemos reforçar */
+  opacity: 0.5; 
+}
+
+/* Aparece ao passar o mouse sobre o item da lista (li) */
+.periodo-card ul li:hover .btn-acao,
+.notas-card ul li:hover .btn-acao {
+  opacity: 1;
+}
+
+/* ===== ESTILO DA TAREFA CONCLUÍDA ===== */
+.tarefa-concluida {
+    text-decoration: line-through; /* Risca o texto */
+    color: var(--text-secondary); /* Deixa o texto cinza */
+    opacity: 0.7; /* Leve transparência */
 }
 
 /* ===== Marcadores personalizados ===== */
@@ -92,36 +121,76 @@
   margin-left: -1em;
 }
 
-/* ===== Gráfico (graph-card - USAR O NOME CORRETO: .grafico-card) ===== */
-/* NOTE: Seu HTML usava .grafico-card, o CSS usava .graph-card. Vou manter .graph-card, mas verifique no seu JSX. */
+/* ===== ESTILO DA TAREFA CONCLUÍDA ===== */
+/* Esta regra risca o texto quando o <li> tem a classe */
+.tarefa-concluida {
+    text-decoration: line-through; /* Risca o texto */
+    color: var(--text-secondary); /* Deixa o texto cinza */
+    opacity: 0.7; /* Leve transparência */
+}
+
+/* Garante que os botões também fiquem semitransparentes */
+.tarefa-concluida .btn-acao {
+    opacity: 0.3;
+}
+
+/* ===== AJUSTE NO ITEM DA LISTA (li) ===== */
+/* Precisamos garantir que o <li> use flexbox para alinhar os botões */
+.periodo-card ul li,
+.notas-card ul li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s, opacity 0.3s;
+  
+  /* NOVO: Flexbox para alinhar texto e botões */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Container dos botões de ação (do TarefaItem.jsx) */
+.tarefa-acoes {
+  display: flex;
+  gap: 8px;
+}
+
+/* Estilo base dos botões de ação (para .btn-acao) */
+.btn-acao {
+  /* Estilos inline no JSX já cuidam disso, mas podemos reforçar */
+  opacity: 0.5; /* Fica sutil até o hover */
+}
+
+/* Aparece ao passar o mouse sobre o item da lista (li) */
+.periodo-card ul li:hover .btn-acao,
+.notas-card ul li:hover .btn-acao {
+  opacity: 1;
+}
+
+/* ===== Gráfico ===== */
 .graph-card {
   grid-column: span 2;
+  /* Damos uma altura mínima para o gráfico poder se expandir */
+  min-height: 280px; 
 }
-/* Se você usou .grafico-card no JSX:
-.grafico-card {
-  grid-column: span 2;
-}
-*/
 
-.progress-placeholder {
+/* NOVO: Container para o Recharts */
+.grafico-rotina-container {
   width: 100%;
-  height: 150px;
-  background-color: #f4f7f9;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #aaa;
-  font-style: italic;
+  height: 200px; /* Altura fixa para o gráfico de pizza */
+  margin-top: 10px;
+  font-size: 0.9rem; /* O Recharts herda a fonte */
 }
 
-.progress-placeholder::after {
-  content: 'Gráfico de progresso diário';
+/* REMOVER/SUBSTITUIR: Não precisamos mais do placeholder */
+.progress-placeholder {
+  display: none; /* Escondemos o placeholder antigo */
 }
 
-/* ===== Modal (Perfeito, não alterado) ===== */
+/* ===== Modal ===== */
 .modal {
-  display: none;
+  /* O React controla a renderização, então usamos 'block' */
+  display: block; 
   position: fixed;
   z-index: 1000;
   left: 0;
@@ -130,9 +199,69 @@
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.3s ease;
 }
 
-/* ... (Resto dos estilos do Modal sem alteração) ... */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+}
+
+.close-btn {
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+  color: black;
+  cursor: pointer;
+}
+
+.modal-content h3 {
+  margin-bottom: 20px;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modal-content form input,
+.modal-content form select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.modal-content form button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: var(--primary-color);
+  color: #fff;
+}
 
 /* ===== Responsividade ===== */
 @media (max-width: 992px) {
