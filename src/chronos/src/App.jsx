@@ -15,6 +15,7 @@ import TelaProjetos from './pages/TelaProjetos';
 import TelaBuscar from './pages/TelaBuscar';
 import TelaAnalise from './pages/TelaAnalise';
 import TelaConfiguracoes from './pages/TelaConfiguracoes'; // Corrigi o nome do arquivo aqui
+import TelaCalendario from './pages/TelaCalendario'; // Corrigi o nome do arquivo aqui
 
 function App() {
 
@@ -128,6 +129,7 @@ function App() {
         <Route path="/lembretes" element={<TelaLembretes />} />
         <Route path="/buscar" element={<TelaBuscar />} />
         <Route path="/analise" element={<TelaAnalise />} />
+        <Route path="/calendario" element={<TelaCalendario />} />
         <Route path="/configuracoes" element={<TelaConfiguracoes />} />
         
         <Route path="*" element={
