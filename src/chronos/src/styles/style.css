@@ -96,3 +96,9 @@ a:hover {
     min-height: 100vh;
     width: 100%;
 }
+
+/* Estilo para eventos concluídos no FullCalendar */
+.evento-concluido {
+  opacity: 0.6;
+  text-decoration: line-through;
+}

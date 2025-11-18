@@ -2,16 +2,15 @@
 
 import React from 'react';
 
-// Recebe a tarefa e as funções que o App.jsx definiu
+// 1. CORREÇÃO: Padronizando os nomes das props (onToggle, onEditar, onRemover)
 function TarefaItem({ tarefa, onToggle, onEditar, onRemover }) {
   
-  // Função para parar a propagação de eventos
-  // Evita que ao clicar no botão de "Remover", o 'onClick' de 'concluir' (no <li>) dispare junto.
+  // Evita que ao clicar no botão "Remover", o <li> (concluir) dispare junto
   const handleActionClick = (e) => {
     e.stopPropagation(); 
   };
   
-  // Estilo CSS inline para os botões (para não criar outro arquivo CSS)
+  // Estilos (mantidos)
   const buttonStyle = {
     background: 'none',
     border: 'none',
@@ -19,39 +18,39 @@ function TarefaItem({ tarefa, onToggle, onEditar, onRemover }) {
     fontSize: '1rem',
     marginLeft: '8px',
     padding: '2px',
-    width: 'auto' // Sobrescreve o 'width: 100%' do style.css
+    width: 'auto'
   };
 
   return (
     <li 
       key={tarefa.id} 
-      // Adiciona a classe CSS se a tarefa estiver concluída
       className={tarefa.concluida ? 'tarefa-concluida' : ''}
-      onClick={() => onToggle(tarefa.id)} // Clicar no <li> marca como concluído
+      // 2. CORREÇÃO: Chamando a prop 'onToggle'
+      onClick={() => onToggle(tarefa.id)} 
       style={{ cursor: 'pointer' }}
+      title={`Clique para ${tarefa.concluida ? 'marcar como pendente' : 'concluir'}`}
     >
-      <span 
-        style={{ flexGrow: 1 }} // O texto ocupa o espaço
-      >
+      <span style={{ flexGrow: 1 }}>
         {tarefa.texto}
       </span>
       
-      {/* Container para os botões de ação */}
       <div className="tarefa-acoes" onClick={handleActionClick}>
-        {/* Botão de Editar */}
         <button 
           style={buttonStyle} 
-          onClick={() => onEditar(tarefa)} // Chama a função de editar
-          title="Editar Tarefa" // Dica de acessibilidade
+          className="btn-acao"
+          // 3. CORREÇÃO: Chamando a prop 'onEditar'
+          onClick={() => onEditar(tarefa)} 
+          title="Editar Tarefa"
         >
           ✏️
         </button>
         
-        {/* Botão de Remover */}
         <button 
           style={buttonStyle} 
-          onClick={() => onRemover(tarefa.id)} // Chama a função de remover
-          title="Remover Tarefa" // Dica de acessibilidade
+          className="btn-acao"
+          // 4. CORREÇÃO: Chamando a prop 'onRemover'
+          onClick={() => onRemover(tarefa.id)} 
+          title="Remover Tarefa"
         >
           ❌
         </button>

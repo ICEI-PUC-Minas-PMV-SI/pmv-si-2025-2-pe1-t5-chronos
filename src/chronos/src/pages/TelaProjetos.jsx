@@ -1,57 +1,87 @@
 // Arquivo: src/pages/TelaProjetos.jsx
 
-import React from 'react';
+import React, { useState } from 'react'; // 1. Importar o useState
 import MenuPrincipal from '../components/MenuPrincipal'; 
+import ModalProjeto from '../components/ModalProjeto'; // 2. Importar o novo Modal
 
-function TelaProjetos() {
+// 3. Recebendo as props do App.jsx
+function TelaProjetos({ 
+  listaProjetos, 
+  onSalvarProjeto, 
+  onRemoverProjeto 
+}) {
   
-  // No futuro, esta lista viria do estado ou de uma API
-  const projetosMock = [
-    { nome: 'Projeto', descricao: 'Tarefas relacionadas ao desenvolvimento do Chronos.', tarefas: 5 },
-    { nome: 'Estudante', descricao: 'Prazos, trabalhos e estudos da faculdade.', tarefas: 8 },
-    { nome: 'Trabalho', descricao: 'Compromissos e demandas profissionais.', tarefas: 12 },
-    { nome: 'Rotina', descricao: 'Atividades diárias e hábitos pessoais.', tarefas: 7 },
-  ];
+  // 4. Estado local para controlar o Modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [projetoParaEditar, setProjetoParaEditar] = useState(null);
+
+  // --- Funções de Controle do Modal ---
+  const handleAbrirModalCriar = () => {
+    setProjetoParaEditar(null);
+    setIsModalOpen(true);
+  };
+  const handleAbrirModalEditar = (projeto) => {
+    setProjetoParaEditar(projeto);
+    setIsModalOpen(true);
+  };
+  const handleFecharModal = () => {
+    setIsModalOpen(false);
+    setProjetoParaEditar(null);
+  };
 
   return (
     <div className="app-layout"> 
       <MenuPrincipal /> 
       
-      <main class="main-content">
+      <main className="main-content">
           <header>
               <h2>Meus Projetos</h2>
               <p>Organize suas tarefas em categorias personalizadas.</p>
           </header>
 
+          {/* 5. Seção de Adicionar (Agora é um botão) */}
           <section className="add-entry-section">
-              <h3>Adicionar Nova Tarefa</h3>
-              {/* Este formulário seria substituído por um componente reutilizável */}
-              <form className="entry-form"> 
-                  <input type="text" placeholder="Descrição da nova tarefa..." required />
-                  <select required>
-                      <option value="" disabled selected>Selecione o Projeto</option>
-                      {/* Renderizando as opções com base nos dados mock */}
-                      {projetosMock.map(proj => (
-                          <option key={proj.nome} value={proj.nome.toLowerCase()}>{proj.nome}</option>
-                      ))}
-                  </select>
-                  <button type="submit">+ Adicionar</button>
-              </form>
+              {/* Removemos o formulário daqui */}
+              <button className="adicionar-btn" onClick={handleAbrirModalCriar}>
+                + Adicionar Novo Projeto
+              </button>
           </section>
 
           <section className="projects-section">
               <div className="projects-grid">
-                  {/* Renderizando os cartões de projeto com .map() */}
-                  {projetosMock.map(proj => (
-                      <div className="project-card" key={proj.nome}>
+                  
+                  {/* 6. Renderizando os cards dinamicamente com a prop 'listaProjetos' */}
+                  {listaProjetos.map(proj => (
+                      <div className="project-card" key={proj.id}>
+                          {/* 7. Botões de Ação (Editar/Remover) */}
+                          <div className="project-card-actions">
+                            <button onClick={() => handleAbrirModalEditar(proj)}>✏️</button>
+                            <button onClick={() => onRemoverProjeto(proj.id)}>❌</button>
+                          </div>
+                          
                           <h3>{proj.nome}</h3>
-                          <p>{proj.descricao}</p>
-                          <span>{proj.tarefas} tarefas</span>
+                          
+                          {/* (No futuro, podemos calcular o total de tarefas) */}
+                          {/* <p>{proj.descricao}</p> */}
+                          {/* <span>{proj.tarefas} tarefas</span> */}
                       </div>
                   ))}
+
+                  {/* Mensagem se não houver projetos */}
+                  {listaProjetos.length === 0 && (
+                    <p>Nenhum projeto criado. Clique em "Adicionar" para começar.</p>
+                  )}
               </div>
           </section>
       </main>
+
+      {/* 8. Renderização do Modal */}
+      <ModalProjeto
+        isOpen={isModalOpen}
+        onClose={handleFecharModal}
+        onSalvar={onSalvarProjeto}
+        projetoParaEditar={projetoParaEditar}
+      />
     </div>
   );
 }

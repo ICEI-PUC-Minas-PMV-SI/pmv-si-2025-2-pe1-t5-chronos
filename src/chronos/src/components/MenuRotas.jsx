@@ -13,7 +13,6 @@ function MenuRotas() {
         { path: '/conquistas', label: '4. Conquistas (Gamificação)' },
         { path: '/projetos', label: '5. Projetos e Categorias' },
         { path: '/analise', label: '6. Análise e Relatórios' },
-        { path: '/lembretes', label: '7. Lembretes e Notificações' },
         { path: '/configuracoes', label: '8. Configurações' },
     ];
 

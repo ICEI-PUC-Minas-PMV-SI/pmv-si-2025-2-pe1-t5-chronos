@@ -41,28 +41,5 @@ const conquistas = [
 ];
 
 export default function Conquistas() {
-  return (
-    <div className="flex flex-col w-full h-full p-6 bg-white rounded-xl">
-      {/* Título */}
-      <h1 className="text-3xl font-bold text-center text-blue-700 mb-8 flex items-center justify-center gap-2">
-        🥅 Conquistas
-      </h1>
-
-      {/* Layout horizontal responsivo */}
-      <div className="flex flex-wrap justify-center gap-6">
-        {conquistas.map((c, index) => (
-          <div
-            key={index}
-            className="bg-gray-50 border-2 border-blue-300 rounded-xl p-5 flex flex-col items-center text-center shadow-sm hover:border-blue-500 hover:shadow-md transition-all duration-200 w-[280px] sm:w-[280px] md:w-[280px]"
-          >
-            {c.icone}
-            <h2 className="font-semibold mt-3 text-lg text-gray-800">
-              {c.titulo}
-            </h2>
-            <p className="text-gray-500 mt-1 text-sm">{c.descricao}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+  
 }
