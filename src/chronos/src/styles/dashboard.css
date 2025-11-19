@@ -239,3 +239,121 @@ body.dashboard-view {
         margin-top: 10px;
     }
 }
+
+
+
+
+/* =========================================
+   📄 dashboard.css — CSS PURO COMPLETO
+   ========================================= */
+
+/* LAYOUT PRINCIPAL */
+.dashboard-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-height: 100vh;
+  background: #f5f7fa;
+}
+
+.dashboard-content {
+  flex-grow: 1;
+  padding: 40px;
+}
+
+/* LOGO */
+.dashboard-logo-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.logo-img {
+  height: 90px;
+}
+.logo-title {
+  font-size: 56px;
+  font-weight: bold;
+  color: #22303f;
+}
+
+/* GRID DE LINHAS */
+.dashboard-row {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+/* CARDS GRANDES */
+.card {
+  flex: 1;
+  background: white;
+  padding: 25px;
+  border-radius: 18px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* INPUTS */
+.input-area,
+.input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #cfd3d6;
+  outline: none;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+/* BOTÃO */
+.btn {
+  background: #1e293b;
+  color: white;
+  padding: 8px 22px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  float: right;
+  margin-top: 5px;
+}
+
+/* CARDS MENORES */
+.small-card {
+  flex: 1;
+  background: white;
+  padding: 25px;
+  border-radius: 18px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.small-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.small-number {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+/* PROGRESS BAR */
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 20px;
+  margin: 10px 0;
+}
+.progress
