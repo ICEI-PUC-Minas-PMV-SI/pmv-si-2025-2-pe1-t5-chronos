@@ -1,25 +1,66 @@
 // Arquivo: src/services/tarefaService.js
 
-// 1. Importa a função do nosso novo helper
-import { getHojeLocal } from '../utils/dateUtils';
+import { getHojeLocal } from "../utils/dateUtils";
 
-const STORAGE_KEY = 'chronos_tarefas_v2';
+const STORAGE_KEY = "chronos_tarefas_v2";
 
-// 2. Removemos a definição duplicada de getHojeLocal() daqui
+/**
+ * Normaliza uma tarefa para garantir que todas as propriedades existam.
+ */
+const normalizarTarefa = (t) => {
+  return {
+    id: t.id,
+    texto: t.texto ?? "",
+    concluida: Boolean(t.concluida),
+    periodo: t.periodo ?? "manhã",
+    isNota: t.isNota ?? false,
+    data: t.data || getHojeLocal(),
+    metaId: t.metaId ?? null,
+    dataCriacao: t.dataCriacao ?? new Date().toLocaleDateString(),
+  };
+};
 
 /**
  * Carrega as tarefas do Local Storage.
  */
 export const getTarefas = () => {
   const storedTarefas = localStorage.getItem(STORAGE_KEY);
+
   if (storedTarefas) {
-    return JSON.parse(storedTarefas);
+    try {
+      const lista = JSON.parse(storedTarefas);
+      // Garante que a lista seja um array e normaliza cada item
+      if (Array.isArray(lista)) {
+        return lista.map(normalizarTarefa);
+      }
+      return [];
+    } catch (e) {
+      console.error("Erro ao parsear tarefas do storage:", e);
+      return [];
+    }
   }
-  // Exemplo usa a função importada
+
+  // Exemplo inicial (sem caracteres estranhos)
   return [
-    { id: 1, texto: 'Estudar para o exame', concluida: false, periodo: 'manhã', isNota: false, data: getHojeLocal(), metaId: null },
-    { id: 2, texto: 'Exercícios matinais', concluida: false, periodo: 'manhã', isNota: false, data: getHojeLocal(), metaId: null },
-  ];
+    {
+      id: 1,
+      texto: "Estudar para o exame",
+      concluida: false,
+      periodo: "manhã",
+      isNota: false,
+      data: getHojeLocal(),
+      metaId: null,
+    },
+    {
+      id: 2,
+      texto: "Exercícios matinais",
+      concluida: false,
+      periodo: "manhã",
+      isNota: false,
+      data: getHojeLocal(),
+      metaId: null,
+    },
+  ];
 };
 
 const salvarNoStorage = (listaTarefas) => {
@@ -32,34 +73,44 @@ const salvarNoStorage = (listaTarefas) => {
 export const salvarTarefa = (tarefaSalva, listaTarefasAtual) => {
   let novaLista;
 
-  if (tarefaSalva.id) { 
-    novaLista = listaTarefasAtual.map(t => 
-      t.id === tarefaSalva.id ? tarefaSalva : t
+  if (tarefaSalva.id) {
+    // Edição
+    const tarefaNormalizada = normalizarTarefa(tarefaSalva);
+    novaLista = listaTarefasAtual.map((t) =>
+      t.id === tarefaSalva.id ? tarefaNormalizada : t
     );
-  } else { 
-    const novaTarefa = { 
-      ...tarefaSalva, 
-      id: Date.now(), 
+  } else {
+    // Criação
+    const novaTarefa = normalizarTarefa({
+      ...tarefaSalva,
+      id: Date.now(),
       dataCriacao: new Date().toLocaleDateString(),
-      data: tarefaSalva.data || getHojeLocal() // Usa a função importada
-    };
+      data: tarefaSalva.data || getHojeLocal(),
+    });
+
     novaLista = [...listaTarefasAtual, novaTarefa];
   }
-  
+
   salvarNoStorage(novaLista);
   return novaLista;
 };
 
-// ... (Restante do arquivo: removerTarefa e toggleConcluida não mudam) ...
+/**
+ * Remove uma tarefa.
+ */
 export const removerTarefa = (idTarefa, listaTarefasAtual) => {
-  const novaLista = listaTarefasAtual.filter(t => t.id !== idTarefa);
+  const novaLista = listaTarefasAtual.filter((t) => t.id !== idTarefa);
   salvarNoStorage(novaLista);
   return novaLista;
 };
+
+/**
+ * Marca / desmarca tarefa como concluída.
+ */
 export const toggleConcluida = (idTarefa, listaTarefasAtual) => {
-  const novaLista = listaTarefasAtual.map(tarefa => {
+  const novaLista = listaTarefasAtual.map((tarefa) => {
     if (tarefa.id === idTarefa) {
-      return { ...tarefa, concluida: !tarefa.concluida }; 
+      return { ...tarefa, concluida: !tarefa.concluida };
     }
     return tarefa;
   });

@@ -185,7 +185,7 @@ body.dashboard-view {
     font-size: 0.9rem;
 }
 
-/* --- Responsive Design --- */
+/* --- Responsive Design geral --- */
 @media (max-width: 768px) {
     .app-container {
         flex-direction: column;
@@ -241,13 +241,11 @@ body.dashboard-view {
 }
 
 
-
-
 /* =========================================
-   📄 dashboard.css — CSS PURO COMPLETO
+   📄 dashboard.css — layout CHRONOS
    ========================================= */
 
-/* LAYOUT PRINCIPAL */
+/* LAYOUT PRINCIPAL do Dashboard */
 .dashboard-container {
   display: flex;
   flex-direction: row;
@@ -273,6 +271,7 @@ body.dashboard-view {
 .logo-img {
   height: 90px;
 }
+
 .logo-title {
   font-size: 56px;
   font-weight: bold;
@@ -290,7 +289,7 @@ body.dashboard-view {
 /* CARDS GRANDES */
 .card {
   flex: 1;
-  background: white;
+  background: #ffffff;
   padding: 25px;
   border-radius: 18px;
   border: 1px solid #e5e7eb;
@@ -315,6 +314,11 @@ body.dashboard-view {
   font-size: 14px;
 }
 
+.input-area {
+  min-height: 90px;
+  resize: vertical;
+}
+
 /* BOTÃO */
 .btn {
   background: #1e293b;
@@ -323,14 +327,30 @@ body.dashboard-view {
   border-radius: 12px;
   border: none;
   cursor: pointer;
-  float: right;
   margin-top: 5px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn:hover {
+  background: #0f172a;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-small {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.75rem;
 }
 
 /* CARDS MENORES */
 .small-card {
   flex: 1;
-  background: white;
+  background: #ffffff;
   padding: 25px;
   border-radius: 18px;
   border: 1px solid #e5e7eb;
@@ -348,6 +368,13 @@ body.dashboard-view {
   font-weight: bold;
 }
 
+/* TEXTOS AUXILIARES */
+.info-text {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-top: 6px;
+}
+
 /* PROGRESS BAR */
 .progress-bar {
   width: 100%;
@@ -355,5 +382,114 @@ body.dashboard-view {
   background: #e2e8f0;
   border-radius: 20px;
   margin: 10px 0;
+  overflow: hidden;
 }
-.progress
+
+.progress-fill {
+  height: 100%;
+  border-radius: 20px;
+  background: linear-gradient(90deg, #4ade80, #16a34a);
+  transition: width 0.3s ease;
+}
+
+/* CARDS DE GRÁFICO / RESUMO */
+.chart-card {
+  flex: 1;
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 18px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ÁREA INTERNA DO "GRÁFICO" */
+.chart-body {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chart-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+}
+
+.chart-date {
+  min-width: 90px;
+  color: #4b5563;
+}
+
+.chart-bar-bg {
+  flex: 1;
+  height: 10px;
+  border-radius: 999px;
+  background-color: #e5e7eb;
+  overflow: hidden;
+}
+
+.chart-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #4ade80, #16a34a);
+  transition: width 0.3s ease;
+}
+
+.chart-percentage {
+  min-width: 80px;
+  text-align: right;
+  color: #4b5563;
+}
+
+/* LISTA DE ITENS (NOTAS / ATIVIDADES) */
+.item-list {
+  list-style: none;
+  margin: 10px 0 0 0;
+  padding: 0;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.item-row:last-child {
+  border-bottom: none;
+}
+
+.item-title {
+  font-weight: 500;
+  margin-bottom: 2px;
+  color: #111827;
+}
+
+/* RESPONSIVIDADE do DASHBOARD */
+@media (max-width: 1024px) {
+  .dashboard-content {
+    padding: 20px;
+  }
+
+  .dashboard-row {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 640px) {
+  .logo-title {
+    font-size: 36px;
+  }
+
+  .card, .small-card, .chart-card {
+    padding: 16px;
+  }
+}
